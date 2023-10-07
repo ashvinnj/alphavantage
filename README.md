@@ -35,3 +35,7 @@ alphavantage_api.py [-h] -s SYMBOL
 for suggesting the use of the bcrypt encryption module.
 
 * [Alphavantage](https://www.alphavantage.co) for providing financial market data through their APIs.
+=======
+# alphavantage
+alphavantage.com generate APIKEY and Tester program to use web APIS
+>>>>>>> 4ac999174c4e0d7995a3f52b8b8fb73d06d1263c
