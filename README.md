@@ -24,9 +24,9 @@ pip install bcrypt
 ### Usage - API Interaction Script
 * The alphavantage_api.py script is designed to interact with the Alphavantage API using the encrypted API key.
 
-* To use this script:
+* To use this script at command prompt:
 ```
-alphavantage_api.py [-h] -s SYMBOL
+python alphavantage_api.py --symbol AAPL
 ```
 
 ### Acknowledgments
