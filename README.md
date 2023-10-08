@@ -1,3 +1,7 @@
+
+# alphavantage
+alphavantage.com generate APIKEY and Tester program to use web APIS
+
 # Alphavantage API Key Encryption Script
 
 This Python script is designed to encrypt and store your Alphavantage API key securely using the bcrypt library. It also includes a second script for interacting with the Alphavantage API using the encrypted API key.
@@ -28,6 +32,8 @@ pip install bcrypt
 ```
 python alphavantage_api.py --symbol AAPL
 ```
+ * enter APIKEY
+ * This scrip will validate APIKEY.  The APIKEY nees to be validated b4 making calls to alphavantge.co
 
 ### Acknowledgments
 
@@ -35,6 +41,7 @@ python alphavantage_api.py --symbol AAPL
 for suggesting the use of the bcrypt encryption module.
 
 * [Alphavantage](https://www.alphavantage.co) for providing financial market data through their APIs.
-=======
+
+
 # alphavantage
 alphavantage.com generate APIKEY and Tester program to use web APIS
