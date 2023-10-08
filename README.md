@@ -32,8 +32,8 @@ pip install bcrypt
 ```
 python alphavantage_api.py --symbol AAPL
 ```
- * enter APIKEY
- * This scrip will validate APIKEY.  The APIKEY nees to be validated b4 making calls to alphavantge.co
+* Please input your APIKEY.
+* This script will perform APIKEY validation, which is required before making any calls to alphavantage.co.
 
 ### Acknowledgments
 
