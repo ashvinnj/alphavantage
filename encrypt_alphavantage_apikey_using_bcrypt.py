@@ -1,40 +1,28 @@
 """
-    encrypt_alphavantage_apikey_using_bcrypt.py script takes'apikey'* generated on https://www.alphavantage.co
-    Refer to https://www.alphavantage.co/#about
-    Alpha Vantage provides realtime and historical financial market data through a set of powerful
-    and developer-friendly data APIs and spreadsheets.
+    encrypt_alphavantage_apikey_using_bcrypt.py script:
+        1. prompts for 'apikey' obtained from https://www.alphavantage.co
 
-    *apikey notes:
-    API Key:  Alphavantage requires you to register and use
-    an API Key to validate your request.  Please visit the website to claim
-    your API Key at the alphavantage website.
-    (You can give any email address; the 16-digit key will appear in the web page (
-    i.e., you don't have to confirm your email to receive the key)).
+        2. This script encrypts 'apikey' using 'bcyrpt', an essential step in developing secure access to
+           alphavantage.com stock apis:
+           refer to https://www.makeuseof.com/encrypt-password-in-python-bcrypt/ for details on 'bcrypt'
+           and then it stores encrypted key into a file alphavantage_apikey.txt.
 
-    This script will:
-    - encrypt the APIKey and store into a file: apivantage_apikey.txt
-      the encryption module suggested by Professor David Blaikie
-      (https://www.sps.nyu.edu/professional-pathways/faculty/d/961-david-blaikie.html)
-       on how to encrypt a password in python using bcyrpt refer to url:
-       https://www.makeuseof.com/encrypt-password-in-python-bcrypt/
+           To install bcrypt module using pip issue command: pip install bcrypt
 
-    - when using functionality provided by alphavantage.co in your python scripts,
-      you will load APIKey stored in from a file: apivantage_apikey.txt
+        3. when using functionality provided by alphavantage.co in your python scripts,
+           you will load APIKey stored in from a file: alphavantage_api_validate.py
 
-    - To install bcrypt using pip: pip install bcrypt
-      (note: in pycharm, click on Terminal and type the command: pip install bcrypt)
-    - You'll need to run this script once only to generate encrypted APIKey and store it in
-      apivantage_apikey.txt
-    - Then use the file apivantage_apikey.txt in your scripts to query financial market data using
-      modules provided by alphavantage.co
+        4. You can use tester program, alphavantage_api_validate.py which uses ticker symbol search utility provided
+           by alphavantage.com to validate API key
+
+        5. To run this script at command prompt type:
+           python encrypt_alphavantage_apikey_using_bcrypt.py
 """
-
 
 import bcrypt
 import os
 
-
-# Define a apikey as a string
+# Define an apikey as a string
 apikey = str(input("Enter alphavantage.co APIKEY: "))
 
 # Encode the apikey into a readable utf-8 byte code
@@ -47,10 +35,8 @@ hashed_apikey = bcrypt.hashpw(apikey, bcrypt.gensalt())
 # print(hashed_apikey)
 
 # store the hashedkey into a flat file
-with open ('apivantage_apikey.txt', 'wb') as wfh:
+with open('alphavantage_apikey.txt', 'wb') as wfh:
     wfh.write(hashed_apikey)
 
-if os.path.exists('apivantage_apikey.txt'):
-    print('APIKEY encrypted and captured sucessfully')
-   
-    
+if os.path.exists('alphavantage_apikey.txt'):
+    print('APIKEY encrypted and captured successfully')

@@ -1,17 +1,14 @@
 """
-     The `alphavantage_api.py` script will validate your apikey generated on alphavantage.co
-     The purpose of this script to validate Alphavantage APIKEY.
-
-     provide the APIKEY when running the script to validate as a test before
-     exploring the rest of the APIs from alphavantage.co
+     The `alphavantage_api_validate.py` script will validate your apikey (password) to access
+     stock apis provided by alphavantage.co
+     refer to example of Json https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo
 
      to test this script at command prompt:
-     python alphavantage_api.py --symbol IBM
+     python alphavantage_api_validate.py --symbol IBM
 
 """
 
 import argparse
-import bcrypt
 import json
 import os
 import requests
@@ -19,25 +16,17 @@ import sys
 
 
 def get_api_key():
-    # Read the hashed API key from the file
-    with open("apivantage_apikey.txt", "rb") as f:
+    """ retrieve hashed API key from the file """
+    with open("alphavantage_apikey.txt", "rb") as f:
         hashed_api_key = f.read()
 
-    # Input the API key to check
-    api_key_to_check = str(input("Enter your API Key: ")).encode('utf-8')
-
-    # Use bcrypt to verify the API key
-    if bcrypt.checkpw(api_key_to_check, hashed_api_key):
-        print("Congratulations! APIKEY is valid")
-        return api_key_to_check.decode('utf-8')
-    else:
-        print("API key is invalid")
-        return None
+    return hashed_api_key
 
 
 def get_stock_name_by_symbol_search(in_symbol):
-    """ function fids Finds Stock's company name after providing APIKEY """
+    """ function to get full stock name based on a symbol using ticker symbol search api """
 
+    retrieved_api_key = None
     try:
         retrieved_api_key = get_api_key()
         if not retrieved_api_key:
@@ -59,14 +48,20 @@ def get_stock_name_by_symbol_search(in_symbol):
         raise SystemExit(e)
 
     json_data = json.loads(response.text)
+    # Get the total number of items in the "bestMatches" array
+    total_items = len(json_data.get("bestMatches", []))
 
     stock_company_name = None
-    for item in json_data.get("bestMatches", []):
-        symbol = item.get("1. symbol")
-        exact_match = float(item.get("9. matchScore"))
-        if symbol == in_symbol and exact_match == 1.0:
-            stock_company_name = item.get("2. name")
-            break
+    print("Total number of items in 'bestMatches' key:", total_items)
+
+    if total_items > 0:
+        stock_company_name = None
+        for item in json_data.get("bestMatches", []):
+            symbol = item.get("1. symbol")
+            exact_match = float(item.get("9. matchScore"))
+            if symbol == in_symbol and exact_match == 1.0:
+                stock_company_name = item.get("2. name")
+                break
 
     return stock_company_name
 
@@ -85,7 +80,6 @@ def enter_stock_symbol_command_line():
 
 
 def main():
-
     symbol = enter_stock_symbol_command_line().upper()
 
     stock_company_name = get_stock_name_by_symbol_search(symbol)

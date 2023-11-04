@@ -1,47 +1,61 @@
+ 
+# Alphavantage API Key Encryption and Validation Scripts
 
-# alphavantage
-alphavantage.com generate APIKEY and Tester program to use web APIS
+This project includes two Python scripts to help you secure and use your Alphavantage API key for accessing stock APIs
+provided by Alphavantage.co. The first script, `encrypt_alphavantage_apikey_using_bcrypt.py`, encrypts your API key, 
+and the second script, `alphavantage_api_validate.py`, validates the API key.
 
-# Alphavantage API Key Encryption Script
+## Prerequisites
 
-This Python script is designed to encrypt and store your Alphavantage API key securely using the bcrypt library. It also includes a second script for interacting with the Alphavantage API using the encrypted API key.
+Before using these scripts, make sure you have the following requirements:
 
-## Getting Started
+1. Python installed on your system.
 
-Before you begin, you will need to obtain an API key from Alphavantage. You can register and claim your API key at the Alphavantage website: [Alphavantage API Key](https://www.alphavantage.co/#about)
+2. The `bcrypt` module installed. You can install it using pip with the following command:
 
-### Prerequisites
+   ```
+   pip install bcrypt
+   
+### 'encrypt_alphavantage_apikey_using_bcrypt.py'
 
-To run the encryption script, you will need to have the bcrypt library installed. You can install it using pip:
+### overview:
+This script encrypts your Alphavantage API key using the bcrypt hashing algorithm, 
+which is essential for secure access to Alphavantage.com stock APIs. After encryption, it stores 
+the API key securely in a file named alphavantage_apikey.txt
 
+1. Run the script using the following command:
+   ```
+   python encrypt_alphavantage_apikey_using_bcrypt.py
 
-```shell
-pip install bcrypt
-```
-### Usage - Encryption Script
+2. You will be prompted to enter your Alphavantage API key.
 
-1. Run the encrypt_alphavantage_apikey_using_bcrypt.py script.
-2. Enter your Alphavantage API key when prompted.
-3. The script will hash and encrypt the API key and store it in a file named apivantage_apikey.txt.
-4. This file will be used by the second script for API interactions.
+The script will encrypt your API key using bcrypt and store the encrypted key 
+in the alphavantage_apikey.txt file.
 
-### Usage - API Interaction Script
-* The alphavantage_api.py script is designed to interact with the Alphavantage API using the encrypted API key.
+### alphavantage_api_validate.py Script
 
-* To use this script at command prompt:
-```
-python alphavantage_api.py --symbol AAPL
-```
-* Please input your APIKEY.
-* This script will perform APIKEY validation, which is required before making any calls to alphavantage.co.
+### Overview
 
-### Acknowledgments
+This script validates your Alphavantage API key for accessing stock APIs provided by 
+Alphavantage.co. It uses Alphavantage's ticker symbol search API to check 
+the validity of the API key.
 
-* [Professor David Blaikie](https://www.sps.nyu.edu/professional-pathways/faculty/d/961-david-blaikie.html) 
-for suggesting the use of the bcrypt encryption module.
+Examples (click for JSON output)
+   ```
+   https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=demo
+   ```
 
-* [Alphavantage](https://www.alphavantage.co) for providing financial market data through their APIs.
+### Usage
+1. Run the script at the command prompt to validate your API key for a specific stock symbol 
+   (replace SYMBOL with the desired stock symbol):
+   ```
+   python alphavantage_api_validate.py --symbol SYMBOL
 
+2. The script will retrieve the encrypted API key from the alphavantage_apikey.txt file and send a request to 
+   Alphavantage's API to check if the provided API key is valid for the given stock symbol.
 
-# alphavantage
-alphavantage.com generate APIKEY and Tester program to use web APIS
+3. If the API key is valid for the provided stock symbol, 
+   the script will display the company name associated with the symbol and a success message.
+
+4. If the API key is not valid or the stock symbol does not exist, 
+    an error message will be displayed, and the script will exit with a non-zero status code.
