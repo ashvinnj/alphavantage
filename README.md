@@ -42,7 +42,7 @@ the validity of the API key.
 
 Examples (click for JSON output)
    ```
-   https://www.alphavantage.co/query?function=MARKET_STATUS&apikey=demo
+   https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo
    ```
 
 ### Usage
