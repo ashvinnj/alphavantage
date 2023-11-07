@@ -10,9 +10,9 @@
            To install bcrypt module using pip issue command: pip install bcrypt
 
         3. when using functionality provided by alphavantage.co in your python scripts,
-           you will load APIKey stored in from a file: alphavantage_api_validate.py
+           you will load APIKey stored in from a file: alphavantage_apikey_validate.py
 
-        4. You can use tester program, alphavantage_api_validate.py which uses ticker symbol search utility provided
+        4. You can use tester program, alphavantage_apikey_validate.py which uses ticker symbol search utility provided
            by alphavantage.com to validate API key
 
         5. To run this script at command prompt type:
@@ -21,6 +21,8 @@
 
 import bcrypt
 import os
+
+
 
 # Define an apikey as a string
 apikey = str(input("Enter alphavantage.co APIKEY: "))

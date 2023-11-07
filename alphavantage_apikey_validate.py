@@ -1,11 +1,10 @@
 """
-     The `alphavantage_api_validate.py` script will validate your apikey (password) to access
-     stock apis provided by alphavantage.co
-     refer to example of Json https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo
+The `alphavantage_apikey_validate.py` script will validate your API key (password) to access
+     stock APIs provided by alphavantage.co.
+Refer to an example of JSON: https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo.
 
-     to test this script at command prompt:
-     python alphavantage_api_validate.py --symbol IBM
-
+To test this script at the command prompt:
+python alphavantage_apikey_validate.py --symbol IBM
 """
 
 import argparse
@@ -15,8 +14,12 @@ import requests
 import sys
 
 
+class StockNotFoundException(Exception):
+    pass
+
+
 def get_api_key():
-    """ retrieve hashed API key from the file """
+    """Retrieve hashed API key from the file."""
     with open("alphavantage_apikey.txt", "rb") as f:
         hashed_api_key = f.read()
 
@@ -24,7 +27,7 @@ def get_api_key():
 
 
 def get_stock_name_by_symbol_search(in_symbol):
-    """ function to get full stock name based on a symbol using ticker symbol search api """
+    """Function to get the full stock name based on a symbol using ticker symbol search API."""
 
     retrieved_api_key = None
     try:
@@ -51,11 +54,9 @@ def get_stock_name_by_symbol_search(in_symbol):
     # Get the total number of items in the "bestMatches" array
     total_items = len(json_data.get("bestMatches", []))
 
-    stock_company_name = None
     print("Total number of items in 'bestMatches' key:", total_items)
-
+    stock_company_name = None
     if total_items > 0:
-        stock_company_name = None
         for item in json_data.get("bestMatches", []):
             symbol = item.get("1. symbol")
             exact_match = float(item.get("9. matchScore"))
@@ -67,7 +68,7 @@ def get_stock_name_by_symbol_search(in_symbol):
 
 
 def enter_stock_symbol_command_line():
-    """ retrieves user's input of stock symbol and ensures command line parameters given"""
+    """Retrieves user's input of stock symbol and ensures command line parameters are given."""
     parser = argparse.ArgumentParser(
         prog=os.path.basename(sys.argv[0]),
         description='enter stock symbol'
@@ -80,17 +81,20 @@ def enter_stock_symbol_command_line():
 
 
 def main():
+    """Main function to execute the script."""
     symbol = enter_stock_symbol_command_line().upper()
 
     stock_company_name = get_stock_name_by_symbol_search(symbol)
 
     if not stock_company_name:
-        print(f'stock symbol: {symbol} does not exists ')
-        sys.exit(1)
+        raise StockNotFoundException(f'Stock symbol: {symbol} does not exist')
 
     print(f'Symbol: {symbol} belongs to company: {stock_company_name}')
     print(' ** Test to use alphavantage.co web APIs using your APIKEY is successful **')
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except StockNotFoundException as e:
+        print(f"Error: {e}")
